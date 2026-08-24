@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-pixel: "VT323", monospace;
+  --font-pixel-heading: "Press Start 2P", monospace;
+
+  --color-pixel-bg: #1e1b4b;
+  --color-pixel-panel: #c3c3c3;
+  --color-pixel-panel-dark: #8b8b8b;
+  --color-pixel-panel-light: #dfdfdf;
+  --color-pixel-text: #000000;
+  --color-pixel-text-light: #ffffff;
+  --color-pixel-primary: #0000aa;
+  --color-pixel-success: #00aa00;
+  --color-pixel-warning: #aaaa00;
+  --color-pixel-danger: #aa0000;
+
+  --shadow-pixel: 4px 0 0 0 #000, -4px 0 0 0 #000, 0 -4px 0 0 #000, 0 4px 0 0 #000;
+  --shadow-pixel-sm: 2px 0 0 0 #000, -2px 0 0 0 #000, 0 -2px 0 0 #000, 0 2px 0 0 #000;
+  --shadow-pixel-inset: inset 4px 0 0 0 #8b8b8b, inset -4px 0 0 0 #ffffff, inset 0 -4px 0 0 #ffffff, inset 0 4px 0 0 #8b8b8b;
+
+  --animate-blink: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@layer base {
+  body {
+    @apply bg-pixel-bg text-pixel-text font-pixel;
+    /* Disable anti-aliasing for that crisp pixel look */
+    -webkit-font-smoothing: none;
+    font-smooth: never;
+    image-rendering: pixelated;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-pixel-heading tracking-tight;
+  }
+}
+
+@layer components {
+  /* Classic pixelated panel */
+  .pixel-panel {
+    @apply bg-pixel-panel text-pixel-text p-4 m-1;
+    /* Create the "staircase" border using box-shadow */
+    box-shadow: 
+      inset -4px -4px 0px 0px rgba(0,0,0,0.4),
+      inset 4px 4px 0px 0px rgba(255,255,255,0.8),
+      0 0 0 4px #000;
+  }
+
+  /* Inset panel for data/inputs */
+  .pixel-panel-inset {
+    @apply bg-black text-pixel-success p-2 m-1 font-pixel text-xl;
+    box-shadow: 
+      inset -4px -4px 0px 0px rgba(255,255,255,0.4),
+      inset 4px 4px 0px 0px rgba(0,0,0,0.8),
+      0 0 0 4px #000;
+  }
+
+  /* Pixel button */
+  .pixel-btn {
+    @apply font-pixel-heading text-xs py-3 px-6 cursor-pointer active:translate-y-1.5 transition-transform inline-flex items-center justify-center;
+    border-radius: 9999px;
+    border: 4px solid #000;
+    background-color: #fcd34d; /* Yellow */
+    color: #000;
+    box-shadow: 
+      0 6px 0 0 #dc2626, /* Red 3D block */
+      0 6px 0 4px #000;  /* Black outline for 3D block */
+    text-transform: uppercase;
+  }
+  
+  .pixel-btn:active {
+    box-shadow: 
+      0 0px 0 0 #dc2626,
+      0 0px 0 4px #000;
+  }
+
+  .pixel-btn-primary {
+    background-color: #3b82f6;
+    color: #fff;
+    box-shadow: 0 6px 0 0 #1e3a8a, 0 6px 0 4px #000;
+  }
+  .pixel-btn-primary:active {
+    box-shadow: 0 0px 0 0 #1e3a8a, 0 0px 0 4px #000;
+  }
+
+  .pixel-btn-success {
+    background-color: #22c55e;
+    color: #fff;
+    box-shadow: 0 6px 0 0 #14532d, 0 6px 0 4px #000;
+  }
+  .pixel-btn-success:active {
+    box-shadow: 0 0px 0 0 #14532d, 0 0px 0 4px #000;
+  }
+
+  .pixel-btn-danger {
+    background-color: #ef4444;
+    color: #fff;
+    box-shadow: 0 6px 0 0 #7f1d1d, 0 6px 0 4px #000;
+  }
+  .pixel-btn-danger:active {
+    box-shadow: 0 0px 0 0 #7f1d1d, 0 0px 0 4px #000;
+  }
+
+  /* 3D Title Text matching the screenshot */
+  .text-3d {
+    color: #fcd34d;
+    text-shadow: 
+      -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, /* Text outline */
+      0 2px 0 #dc2626, 0 4px 0 #dc2626, 0 6px 0 #dc2626, /* Red 3D Block */
+      -2px 8px 0 #000, 2px 8px 0 #000, 0 8px 0 #000, 0 10px 0 rgba(0,0,0,0.4); /* Outline + drop shadow */
+  }
+
+  /* Scanline effect for screens */
+  .scanlines {
+    position: relative;
+  }
+  .scanlines::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 50;
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+  }
+}
+
+/* Custom Scrollbar for pixel theme */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-pixel-panel-dark;
+  box-shadow: inset 2px 2px 0px 0px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-pixel-panel;
+  box-shadow: inset -2px -2px 0px 0px rgba(0,0,0,0.4), inset 2px 2px 0px 0px rgba(255,255,255,0.8);
+}
+
+/* Pixel Snow Effect */
+.pixel-snow-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='10' y='10' width='3' height='3' fill='white' opacity='0.8'/%3E%3Crect x='40' y='30' width='2' height='2' fill='white' opacity='0.5'/%3E%3Crect x='80' y='15' width='4' height='4' fill='white' opacity='0.7'/%3E%3Crect x='25' y='60' width='2' height='2' fill='white' opacity='0.9'/%3E%3Crect x='85' y='75' width='3' height='3' fill='white' opacity='0.6'/%3E%3Crect x='55' y='85' width='2' height='2' fill='white' opacity='0.8'/%3E%3Crect x='5' y='45' width='3' height='3' fill='white' opacity='0.5'/%3E%3Crect x='65' y='50' width='2' height='2' fill='white' opacity='0.9'/%3E%3C/svg%3E");
+}
+
+.pixel-snow-1 {
+  background-size: 200px 200px;
+  animation: snow-fall 8s linear infinite;
+}
+
+.pixel-snow-2 {
+  background-size: 300px 300px;
+  animation: snow-fall 14s linear infinite;
+  opacity: 0.6;
+}
+
+.pixel-snow-3 {
+  background-size: 400px 400px;
+  animation: snow-fall 20s linear infinite;
+  opacity: 0.3;
+}
+
+@keyframes snow-fall {
+  from { background-position: 0 0; }
+  to { background-position: 100px 400px; }
+}
