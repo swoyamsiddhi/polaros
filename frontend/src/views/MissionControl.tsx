@@ -9,7 +9,7 @@ export default function MissionControl() {
   const [debrief, setDebrief] = useState<any>(null);
 
   const fetchMissions = () => {
-    fetch('http://127.0.0.1:8000/missions')
+    fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/missions`)
       .then(res => res.json())
       .then(data => {
         setMissions(data);
@@ -23,7 +23,7 @@ export default function MissionControl() {
 
   const startMission = (missionId: number) => {
     setLoading(true);
-    fetch('http://127.0.0.1:8000/simulation/start', {
+    fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/simulation/start`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ mission_id: missionId, user_id: 1 })
@@ -35,7 +35,7 @@ export default function MissionControl() {
   };
 
   const fetchInstance = (instanceId: number) => {
-    fetch(`http://127.0.0.1:8000/simulation/${instanceId}`)
+    fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/simulation/${instanceId}`)
       .then(res => res.json())
       .then(data => {
         setActiveInstance(data);
@@ -49,7 +49,7 @@ export default function MissionControl() {
   };
 
   const fetchDebrief = (instanceId: number) => {
-    fetch(`http://127.0.0.1:8000/simulation/${instanceId}/debrief`)
+    fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/simulation/${instanceId}/debrief`)
       .then(res => res.json())
       .then(data => {
         setDebrief(data);
@@ -58,7 +58,7 @@ export default function MissionControl() {
 
   const performAction = (action: string, choice?: string) => {
     setActionLoading(true);
-    fetch('http://127.0.0.1:8000/simulation/action', {
+    fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/simulation/action`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

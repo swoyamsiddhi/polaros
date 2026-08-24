@@ -20,7 +20,7 @@ export default function Dashboard() {
   const [error, setError] = useState('');
 
   const fetchDashboard = () => {
-    fetch('http://127.0.0.1:8000/dashboard/summary')
+    fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/dashboard/summary`)
       .then(res => res.json())
       .then(d => {
         setData(d);
